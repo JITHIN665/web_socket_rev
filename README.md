@@ -5,10 +5,15 @@ Any easy-to-use library for communicating with WebSockets
 
 ## 🚀 Features
 
-- Connects to a WebSocket server.
-- Supports authentication.
-- Listens to messages and notifies listeners.
-- Automatically reconnects on failure.
+✅ Connects to a WebSocket server  
+
+✅ Supports authentication  
+
+✅ Listens to messages and **notifies listeners**  
+
+✅ **Automatically reconnects** on failure  
+
+✅ Provides **a message stream** for UI updates  
 
 ## Installation
 
