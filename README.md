@@ -3,6 +3,12 @@
 Any easy-to-use library for communicating with WebSockets
   that has multiple channels.
 
+### Deployment targets
+
+- iOS 13.0 and above
+- Android 6.0 and above
+- Web Chrome/Edge/Firefox/Safari.
+
 ## 🚀 Features
 
 ✅ Connects to a WebSocket server  
