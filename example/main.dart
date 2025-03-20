@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:web_socket_rev/web_socket.dart';
 
@@ -6,17 +8,17 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'WebSocket Example',
-      home: WebSocketExampleScreen(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, title: 'WebSocket Example', home: WebSocketExampleScreen());
   }
 }
 
 class WebSocketExampleScreen extends StatefulWidget {
+  const WebSocketExampleScreen({super.key});
+
   @override
   _WebSocketExampleScreenState createState() => _WebSocketExampleScreenState();
 }
@@ -54,9 +56,7 @@ class _WebSocketExampleScreenState extends State<WebSocketExampleScreen> {
       body: ListView.builder(
         itemCount: messages.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(messages[index]),
-          );
+          return ListTile(title: Text(messages[index]));
         },
       ),
     );

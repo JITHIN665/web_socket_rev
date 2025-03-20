@@ -181,6 +181,13 @@ try {
 ```
 
 
+## **🤝 Contributing**
+
+If you encounter any bugs or have feature requests, feel free to open an issue on the [GitHub repository](https://github.com/JITHIN665/web_socket_rev).
+
+---
+
+
 
 ## License
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -20,11 +22,7 @@ class WebSocketService {
   /// Callback function for event handling
   Function(String)? onEventReceived;
 
-  WebSocketService({
-    required this.webSocketUrl,
-    required this.authUrl,
-    required this.channelName,
-  }) {
+  WebSocketService({required this.webSocketUrl, required this.authUrl, required this.channelName}) {
     connect();
   }
 
@@ -37,33 +35,28 @@ class WebSocketService {
     try {
       _webSocket = await WebSocket.connect(webSocketUrl);
 
-      _webSocket.listen(
-        (message) async {
-          var event = jsonDecode(message);
+      _webSocket.listen((message) async {
+        var event = jsonDecode(message);
 
-          if (event['event'] == 'pusher:connection_established') {
-            var data = jsonDecode(event['data']);
-            String socketId = data['socket_id'];
-            Response response = await _authenticateWebSocket(socketId, channelName);
+        if (event['event'] == 'pusher:connection_established') {
+          var data = jsonDecode(event['data']);
+          String socketId = data['socket_id'];
+          Response response = await _authenticateWebSocket(socketId, channelName);
 
-            _webSocket.add(
-              '{"event":"pusher:subscribe","data":{"auth":"${response.data['auth']}","channel":"$channelName"}}',
-            );
+          _webSocket.add('{"event":"pusher:subscribe","data":{"auth":"${response.data['auth']}","channel":"$channelName"}}');
+        }
+
+        Map<String, dynamic> outerMap = jsonDecode(message);
+        if (outerMap['data'] != null) {
+          Map<String, dynamic> innerMap = jsonDecode(outerMap['data']);
+
+          if (innerMap['type'] != null) {
+            onEventReceived?.call(jsonEncode(innerMap));
           }
+        }
 
-          Map<String, dynamic> outerMap = jsonDecode(message);
-          if (outerMap['data'] != null) {
-            Map<String, dynamic> innerMap = jsonDecode(outerMap['data']);
-
-            if (innerMap['type'] != null) {
-              onEventReceived?.call(jsonEncode(innerMap));
-            }
-          }
-
-          _messageController.add(message);
-        },
-        onDone: () => reconnect(),
-      );
+        _messageController.add(message);
+      }, onDone: () => reconnect());
     } catch (e) {
       print("ERROR: $e");
       reconnect();
@@ -72,10 +65,7 @@ class WebSocketService {
 
   Future<Response> _authenticateWebSocket(String socketId, String channelName) async {
     Dio dio = Dio();
-    return await dio.post(
-      authUrl,
-      data: {'socket_id': socketId, 'channel_name': channelName},
-    );
+    return await dio.post(authUrl, data: {'socket_id': socketId, 'channel_name': channelName});
   }
 
   /// Reconnect WebSocket on error
